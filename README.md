@@ -2,7 +2,7 @@
 
 同じ課題トラッカーを左右で同時に動かします。左は TanStack DB、右は `useState` と `await` です。GitHub Pages 向けの静的アプリです。
 
-公開 URL は https://okrago10.github.io/TanstacDB-practice/ です。初回はリポジトリの Settings → Pages で Source を GitHub Actions にしてください。`main` への push で `dist` をデプロイします。
+公開 URL は https://okrago10.github.io/TanstacDB-practice/ です。Pages の Source は GitHub Actions です。サイトは `main` への push で更新されます。github-pages 環境はデフォルトブランチだけを許可するので、feature ブランチからはデプロイしません。
 
 ## 手元で動かす
 
