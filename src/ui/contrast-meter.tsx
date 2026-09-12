@@ -24,6 +24,8 @@ export function ContrastMeter({ db, naive, lesson }: ContrastMeterProps) {
   const current = lessonById(lesson)
   return (
     <section className="meter" aria-label="計測">
+      <h2>{UI_COPY.meterTitle}</h2>
+      <p className="meter-lead">{UI_COPY.meterLead}</p>
       <table>
         <thead>
           <tr>

@@ -26,12 +26,12 @@ type World = {
 }
 
 const PROJECTS: readonly Omit<Project, 'id'>[] = [
-  { name: '基盤', color: '#7aa2ff' },
-  { name: 'モバイル', color: '#8fd4a8' },
-  { name: '課金', color: '#e2c06e' },
-  { name: '成長', color: '#d4a0ff' },
-  { name: 'データ', color: '#8fd0e8' },
-  { name: '信頼と安全', color: '#f0a4a4' },
+  { name: '基盤', color: '#2563eb' },
+  { name: 'モバイル', color: '#059669' },
+  { name: '課金', color: '#d97706' },
+  { name: '成長', color: '#7c3aed' },
+  { name: 'データ', color: '#0891b2' },
+  { name: '信頼と安全', color: '#dc2626' },
 ]
 
 const PEOPLE = [

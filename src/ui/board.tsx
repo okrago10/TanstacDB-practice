@@ -16,6 +16,16 @@ export function Board({ session }: BoardProps) {
   if (session.status === 'loading') {
     return <p className="loading">{UI_COPY.loading}</p>
   }
+  if (session.rows.length === 0) {
+    return (
+      <>
+        <p className="matched">
+          {UI_COPY.matched(session.matchedCount, session.rows.length)}
+        </p>
+        <p className="empty">{UI_COPY.empty}</p>
+      </>
+    )
+  }
   return (
     <>
       <p className="matched">
@@ -66,10 +76,20 @@ export function TicketRowView({
       <div className="ticket-body">
         <p className="ticket-title">{row.title}</p>
         <p className="ticket-meta">
-          {row.project.name} · {row.assignee.name} · {statusLabel(row.status)} ·{' '}
-          {priorityLabel(row.priority)}
-          {chrome === 'syncing' ? ` · ${UI_COPY.syncing}` : null}
-          {chrome === 'blocked' ? ` · ${UI_COPY.blocked}` : null}
+          <span className="chip">{row.project.name}</span>
+          <span className="chip">{row.assignee.name}</span>
+          <span className={`chip chip-${row.status}`}>
+            {statusLabel(row.status)}
+          </span>
+          <span className={`chip ${row.priority === 'high' ? 'chip-high' : ''}`}>
+            {priorityLabel(row.priority)}
+          </span>
+          {chrome === 'syncing' ? (
+            <span className="chip chip-done">{UI_COPY.syncing}</span>
+          ) : null}
+          {chrome === 'blocked' ? (
+            <span className="chip chip-doing">{UI_COPY.blocked}</span>
+          ) : null}
         </p>
       </div>
       {canComplete(row.status) ? (
