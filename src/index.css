@@ -113,16 +113,34 @@ select {
   padding: 0.75rem 0.8rem;
 }
 
+.how-to li:nth-child(2) {
+  background: var(--db-soft);
+  border-color: #9ed9d1;
+}
+
+.how-to li:nth-child(3) {
+  background: var(--naive-soft);
+  border-color: #f0c4a8;
+}
+
 .how-to-n {
   display: grid;
   place-items: center;
   width: 1.7rem;
   height: 1.7rem;
   border-radius: 999px;
-  background: var(--db);
+  background: var(--ink);
   color: #fffdf8;
   font-weight: 700;
   font-size: 0.9rem;
+}
+
+.how-to li:nth-child(2) .how-to-n {
+  background: var(--db);
+}
+
+.how-to li:nth-child(3) .how-to-n {
+  background: var(--naive);
 }
 
 .query-bar {
