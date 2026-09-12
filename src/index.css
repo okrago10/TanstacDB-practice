@@ -221,6 +221,7 @@ select {
   text-align: left;
   padding: 0.35rem 0.5rem;
   border-bottom: 1px solid var(--line);
+  white-space: nowrap;
 }
 
 .meter tr.focus {
