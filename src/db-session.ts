@@ -33,7 +33,7 @@ export function createTrackerDb(api: SimulatedApi, persist: PersistMailbox) {
       queryFn: async () => [...(await api.listTickets())],
       getKey: (item) => item.id,
       schema: ticketSchema,
-      startSync: true, // three list* queryFns start together, matching naive Promise.all
+      startSync: true,
       onUpdate: async ({ transaction }) => {
         const mutation = transaction.mutations[0]
         if (!mutation) return
@@ -159,6 +159,20 @@ export function useMeasureMutationPaint(
   }, [probe, data])
 }
 
+function armFilterClockOnQueryChange(
+  probe: Probe,
+  query: BoardQuery,
+  seenQuery: { current: BoardQuery | null },
+): void {
+  if (seenQuery.current === null) {
+    seenQuery.current = query
+    return
+  }
+  if (seenQuery.current === query) return
+  probe.markQueryStart(query)
+  seenQuery.current = query
+}
+
 export function useDbSession(
   trackerDb: TrackerDb,
   query: BoardQuery,
@@ -170,14 +184,7 @@ export function useDbSession(
   client.collection(trackerDb.people)
 
   const seenQuery = useRef<BoardQuery | null>(null)
-  if (seenQuery.current === null) {
-    seenQuery.current = query
-  } else if (seenQuery.current !== query) {
-    // Clock starts before useLiveQuery so filterMs includes the join, not only layout.
-    probe.markQueryStart(query)
-    seenQuery.current = query
-  }
-
+  armFilterClockOnQueryChange(probe, query, seenQuery)
   const live = useLiveQuery({
     query: (q) => buildLiveBoardQuery(q, trackerDb, query),
   })
