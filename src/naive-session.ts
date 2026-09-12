@@ -84,6 +84,7 @@ export function useNaiveSession(
     const ticket = current.tickets.find((item) => item.id === id)
     if (!ticket || ticket.status === 'done') return
     probe.mutationStarted(id)
+    setDump((prev) => (prev ? { ...prev } : prev))
     void (async () => {
       try {
         const updated = await api.completeTicket(id)

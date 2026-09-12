@@ -10,6 +10,10 @@ it('loads both panes and removes a todo from the db list on 完了', async () =>
   const experiment = bootExperiment()
   experiment.network.setLatency(0)
   render(<Lab experiment={experiment} />)
+  expect(screen.getByText(/左の「完了」を押すと、行がすぐ消えます。/)).toBeTruthy()
+  expect(screen.getByText('やってみよう')).toBeTruthy()
+  expect(screen.getByText('すぐ消える')).toBeTruthy()
+  expect(screen.getByText('通信待ち')).toBeTruthy()
   const dbPane = await screen.findByRole('region', { name: 'TanStack DB' })
   const naivePane = screen.getByRole('region', {
     name: 'useState / useMemo / await',

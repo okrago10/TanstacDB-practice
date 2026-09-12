@@ -14,6 +14,7 @@ import {
   readLessonFromUrl,
   UI_COPY,
   writeLessonToUrl,
+  type Lesson,
   type LessonId,
 } from '../lessons.ts'
 import { createProbe } from '../probe.ts'
@@ -54,8 +55,19 @@ export function Lab({ experiment }: LabProps) {
   return (
     <div className="lab">
       <header className="hero">
+        <p className="kicker">{UI_COPY.kicker}</p>
         <h1>{UI_COPY.title}</h1>
-        <p>{UI_COPY.lead}</p>
+        <p className="lead">{UI_COPY.lead}</p>
+        <ol className="how-to">
+          {UI_COPY.howTo.map((step, index) => (
+            <li key={step}>
+              <span className="how-to-n" aria-hidden="true">
+                {index + 1}
+              </span>
+              <span>{step}</span>
+            </li>
+          ))}
+        </ol>
       </header>
       <QueryBar
         query={query}
@@ -65,10 +77,14 @@ export function Lab({ experiment }: LabProps) {
         onLatency={onLatency}
       />
       <LessonTabs lesson={lesson} onChange={onLesson} />
-      <p className="lesson-body">{current.bodyJa}</p>
+      <LessonCard lesson={current} />
       <div className="split">
-        <section className="pane" aria-label={UI_COPY.dbPane}>
-          <h2>{UI_COPY.dbPane}</h2>
+        <section className="pane pane-db" aria-label={UI_COPY.dbPane}>
+          <header className="pane-head">
+            <p className="pane-badge">{UI_COPY.dbBadge}</p>
+            <h2>{UI_COPY.dbPane}</h2>
+            <p className="pane-hint">{UI_COPY.dbHint}</p>
+          </header>
           <DbPane
             key={`db-${epoch}`}
             trackerDb={experiment.trackerDb}
@@ -77,8 +93,15 @@ export function Lab({ experiment }: LabProps) {
             probe={dbProbe}
           />
         </section>
-        <section className="pane" aria-label={UI_COPY.naivePane}>
-          <h2>{UI_COPY.naivePane}</h2>
+        <div className="vs" aria-hidden="true">
+          {UI_COPY.vs}
+        </div>
+        <section className="pane pane-naive" aria-label={UI_COPY.naivePane}>
+          <header className="pane-head">
+            <p className="pane-badge">{UI_COPY.naiveBadge}</p>
+            <h2>{UI_COPY.naivePane}</h2>
+            <p className="pane-hint">{UI_COPY.naiveHint}</p>
+          </header>
           <NaivePane
             key={`naive-${epoch}`}
             api={experiment.pair.naive}
@@ -181,6 +204,7 @@ export function QueryBar({
           value={latencyMs}
           onChange={(event) => onLatency(Number(event.target.value))}
         />
+        <p className="field-hint">{UI_COPY.latencyHint}</p>
       </label>
     </form>
   )
@@ -208,5 +232,17 @@ export function LessonTabs({
         </button>
       ))}
     </div>
+  )
+}
+
+export function LessonCard({ lesson }: { lesson: Lesson }) {
+  return (
+    <article className="lesson-card" aria-label={lesson.titleJa}>
+      <p className="try">
+        <span className="try-label">{UI_COPY.tryLabel}</span>
+        {lesson.tryJa}
+      </p>
+      <p className="why">{lesson.whyJa}</p>
+    </article>
   )
 }
